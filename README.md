@@ -11,4 +11,6 @@ diff listing_0037_single_register_mov test
 ./build.sh && ./sim8086 listing_0039_more_movs > test.asm && nasm test.asm && diff listing_0039_more_movs test
 ```
 
+# CPU Layers
 
+![CPU Layers](./cpu_layers.png)

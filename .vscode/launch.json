@@ -1,0 +1,48 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug",
+            "type": "cppdbg",
+            "preLaunchTask": "Build",
+            "request": "launch",
+            "program": "${workspaceFolder}/sim8086",
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "environment-cd": "${workspaceRoot}",
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "miDebuggerPath": "/usr/bin/gdb",
+            "args": [
+                "listing_0041_add_sub_cmp_jnz"
+            ]
+        },
+        {
+            "name": "Debug LLDB",
+            "type": "cppdbg",
+            "preLaunchTask": "Build",
+            "request": "launch",
+            "program": "${workspaceFolder}/sim8086",
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "miDebuggerPath": "/Library/Developer/CommandLineTools/Library/PrivateFrameworks/LLDB.framework/lldb-mi",
+            "args": [
+                "listing_0041_add_sub_cmp_jnz"
+            ]
+        },
+    ]
+}

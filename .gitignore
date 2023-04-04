@@ -2,3 +2,4 @@ sim8086
 test.asm
 test
 *dSYM
+.vscode

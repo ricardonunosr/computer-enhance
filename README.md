@@ -11,6 +11,17 @@ diff listing_0037_single_register_mov test
 ./build.sh && ./sim8086 listing_0039_more_movs > test.asm && nasm test.asm && diff listing_0039_more_movs test
 ```
 
-# CPU Layers
+# Notes
+
+## CPU Registers
+![CPU Registers](./cpu_registers.png)
+
+## ASM
+```asm
+; Comparing register with memory (bx - register, [bp +0] - memory)
+cmp bx, [bp + 0]
+```
+
+## CPU Layers
 
 ![CPU Layers](./cpu_layers.png)

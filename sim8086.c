@@ -162,6 +162,19 @@ Pattern *TryDecode(u8 byte, Dissambler *state) {
   return NULL;
 }
 
+#define NUM_REGISTERS 8
+
+typedef struct CPU {
+  u16 registers[NUM_REGISTERS];
+}CPU;
+
+void PrintCPUState(CPU* cpu) {
+  printf("\nFinal Registers:\n");
+  for( int i = 0; i < NUM_REGISTERS; ++i) {
+    printf("\t%s 0x%08x (%d)\n", register_names[1][i], cpu->registers[i], cpu->registers[i]);
+  }
+}
+
 int main(int argc, char *argv[]) {
   if (argc < 2) {
     printf("Must pass asm file to decode...\n");
@@ -195,6 +208,10 @@ int main(int argc, char *argv[]) {
   //
   Dissambler *state = &(Dissambler){.buffer = buffer, .bytes_read = 0};
 
+  // CPU
+  //
+  CPU *cpu = &(CPU){};
+
   // NOTE: use 'unsigned char' because when doing comparison 'char' only goes up
   // to 136 because of sign.
   while (state->bytes_read != file_size) {
@@ -210,7 +227,7 @@ int main(int argc, char *argv[]) {
     }
 
     // NOTE: 'mov' is actually a copy and not moving.
-    // MOV destination,source
+    // MOV destination, source
     switch (pattern_found->opcode) {
     case Op_MOV_RegMemToFromReg:
     case Op_SUB_RegMemWithReg:
@@ -230,11 +247,12 @@ int main(int argc, char *argv[]) {
         u8 dst = d ? reg : r_m;
         u8 src = d ? r_m : reg;
 
-        s8 *register_dst = register_names[w][dst];
-        s8 *register_src = register_names[w][src];
+        s8 *reg_dst = register_names[w][dst];
+        s8 *reg_src = register_names[w][src];
 
-        printf("%s %s, %s\n", pattern_found->mnemonic, register_dst,
-               register_src);
+        printf("%s %s, %s\n", pattern_found->mnemonic, reg_dst,
+               reg_src);
+        cpu->registers[dst] = cpu->registers[src];
       } else {
         // Effective address
         s8 *register_name = register_names[w][reg];
@@ -319,7 +337,6 @@ int main(int argc, char *argv[]) {
       } else {
         data = ReadU8(state);
         printf("%d\n", data);
-
       }
     } break;
 
@@ -333,6 +350,8 @@ int main(int argc, char *argv[]) {
       s16 data = w ? ReadU16(state) : ReadU8(state);
 
       printf("%s %s, %d\n", pattern_found->mnemonic, register_dst, data);
+
+      cpu->registers[reg] = data;
     } break;
 
     case Op_MOV_MemToAccum: {
@@ -387,7 +406,8 @@ int main(int argc, char *argv[]) {
     default: {
       // printf("Unknown OpCode...\n");
     } break;
-    }
+    }  
   }
+  PrintCPUState(cpu);
   return 0;
 }

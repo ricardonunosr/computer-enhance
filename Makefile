@@ -1,7 +1,7 @@
 SOURCES = sim8086.c
 FLAGS = -g
 BIN=sim8086
-LISTING=listings/listing_0041_add_sub_cmp_jnz
+LISTING=listings/listing_0044_register_movs
 
 $(BIN): $(SOURCES)
 	clang -o $@ $(FLAGS) $<

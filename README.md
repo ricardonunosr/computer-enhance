@@ -25,3 +25,23 @@ mov ax, 10
 ## CPU Layers
 
 ![CPU Layers](./cpu_layers.png)
+
+## From 8086 to x64
+
+- Extended CPU registers: rax, rbx, ...
+- Effective Adress Calculation is more flexible:
+    - Can have any register instead of bp, si, ...
+    - Allow multiplication
+- Added 8 registers: r8, r9, ..., r15
+    - To access you now use this table
+
+|       |        |
+|-------|--------|
+| BYTE  | 8-bit  |
+| WORD  | 16-bit |
+| DWORD | 32-bit |
+| QWORD | 64-bit |
+
+e.g. r8D
+
+![CPU x86 Registers](./x64_cpu_registers.png)

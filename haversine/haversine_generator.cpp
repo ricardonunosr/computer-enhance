@@ -6,6 +6,8 @@
 #include <stdio.h>
 
 typedef double f64;
+typedef uint32_t u32;
+typedef uint64_t u64;
 
 #include "listings/listing_0065_haversine_formula.cpp"
 
@@ -15,20 +17,16 @@ f64 fRand(f64 fMin, f64 fMax) {
 }
 
 int main(int argc, char *argv[]) {
-  if (argc <= 3) {
-    printf("Usage: haversine_gen [mode] [seed] [number_of_points]\n");
+  if (argc <= 4) {
+    fprintf(stderr, "Usage: haversine_gen [mode] [seed] [number_of_points]\n");
     return 1;
   }
 
-  uint32_t mode = atoi(argv[1]);
-  uint32_t seed = atoi(argv[2]);
-  uint32_t number_of_points = atoi(argv[3]);
+  u32 mode = atoi(argv[1]);
+  u32 seed = atoi(argv[2]);
+  u32 number_of_points = atoi(argv[3]);
 
   std::string file_name = "harv_" + std::to_string(number_of_points) + ".json";
-
-  printf("Mode: %d\n", mode);
-  printf("Ramdom seed: %d\n", seed);
-  printf("Number Of Points: %d\n", number_of_points);
 
   srand(seed);
 
@@ -39,7 +37,7 @@ int main(int argc, char *argv[]) {
   // Start json file
   fprintf(fh, "{\n\"pairs\":[");
 
-  for (uint32_t index = 0; index < number_of_points; ++index) {
+  for (u32 index = 0; index < number_of_points; ++index) {
     f64 x0 = fRand(-180, 180);
     f64 x1 = fRand(-180, 180);
     f64 y0 = fRand(-90, 90);
@@ -53,6 +51,12 @@ int main(int argc, char *argv[]) {
 
   // End json file
   fprintf(fh, "]}");
+
+  printf("Mode: %d\n", mode);
+  printf("Ramdom seed: %d\n", seed);
+  printf("Number Of Points: %d\n", number_of_points);
   printf("Expected sum: %f\n",
-         expected_sum / static_cast<double>(number_of_points));
+         expected_sum / static_cast<f64>(number_of_points));
+
+  return 0;
 }
